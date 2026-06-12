@@ -1,0 +1,25 @@
+/* Supertos Industries (2012 - 2026) */
+#pragma once
+
+#include "PhysicalMemory/Cache.h"
+#include "Prototypes/ProximityDomain.h"
+#include "Prototypes/VirtualMemory.h"
+#include "Structures/RBTree.h"
+
+#define CACHE_BASE 16
+#define CACHE_COUNT LOG2_32(CACHELINE) - LOG2_32(CACHE_BASE) + 1
+
+typedef struct MemoryDomain MemoryDomain;
+typedef struct Core Core;
+
+typedef struct {
+	MemoryDomain* Owner;
+	u32 SMPID;
+	
+	Cache Caches[CACHE_COUNT];
+	
+	VSpace* KernelSpace;
+	RBTree SpaceTree;
+	void* Self;
+	/* CoreScheduler Scheduler; */
+} Core;
